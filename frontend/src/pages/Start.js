@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function Home() {
@@ -8,6 +8,7 @@ function Home() {
     email: "",
     password: "",
   });
+  const navigate = useNavigate();
 
   // Handle form field changes
   const handleChange = (e) => {
@@ -22,10 +23,14 @@ function Home() {
     e.preventDefault();
     try {
       const response = await axios.post("/users/login", formData);
-      const { token } = response.data;
+      const { token, user } = response.data;
+      const { username, email } = user;
       // Store token for authenticated requests
       localStorage.setItem("token", token);
+      localStorage.setItem("username", username);
+      localStorage.setItem("email", email);
       alert("Logged in successfully!");
+      navigate("/home");
     } catch (error) {
       console.error(error);
       alert("Login failed");

@@ -1,19 +1,36 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
+// Helper to render star rating
+function renderStars(rating) {
+  const stars = [];
+  for (let i = 0; i < 5; i++) {
+    stars.push(
+      <span key={i} style={{ color: i < rating ? "#f6c700" : "#ccc" }}>
+        ★
+      </span>
+    );
+  }
+  return stars;
+}
 
 function Home() {
-  // State to store fetched books
   const [books, setBooks] = useState([]);
-
-  // State for search query input
   const [searchQuery, setSearchQuery] = useState("");
+  
+  // Retrieve stored username & email (set by login process)
+  const username = localStorage.getItem("username") || "Guest";
+  const userEmail = localStorage.getItem("email") || "No email";
+  
+  const navigate = useNavigate();
 
   // Fetch books on component mount
   useEffect(() => {
     const fetchBooks = async () => {
       try {
         const res = await axios.get("/books");
-        setBooks(res.data); // Store books in state
+        setBooks(res.data);
       } catch (err) {
         console.error(err);
       }
@@ -31,11 +48,31 @@ function Home() {
     }
   };
 
+  // Handle listing a book button click
+  const handleListABook = () => {
+    navigate("/ListABook");
+  };
+
+  // Handle logout -> remove token, user info, navigate to Start.js
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("username");
+    localStorage.removeItem("email");
+    navigate("/");
+  };
+
   return (
     <div style={styles.container}>
       {/* SIDEBAR */}
       <aside style={styles.sidebar}>
-        <div style={styles.logo}>book loop</div>
+        <div style={styles.logo}>BookLives</div>
+
+        {/* User Info (replacing the avatar) */}
+        <div style={styles.userInfo}>
+          <p style={{ margin: 0, fontWeight: "bold" }}>{username}</p>
+          <p style={{ margin: 0, fontSize: "0.85rem" }}>{userEmail}</p>
+        </div>
+
         <nav style={styles.nav}>
           <a href="#home" style={styles.navLink}>Home</a>
           <a href="#list" style={styles.navLink}>List books</a>
@@ -47,23 +84,15 @@ function Home() {
           <a href="#guide" style={styles.navLink}>User Guide</a>
           <a href="#settings" style={styles.navLink}>Settings</a>
         </nav>
-        <div style={styles.userProfile}>
-          <img
-            src="https://via.placeholder.com/40"
-            alt="User avatar"
-            style={styles.avatar}
-          />
-          <div>
-            <p style={{ margin: 0, fontWeight: "bold" }}>bookworm</p>
-            <p style={{ margin: 0, fontSize: "0.8rem" }}>bw@gmail.com</p>
-          </div>
-        </div>
       </aside>
 
       {/* MAIN CONTENT */}
       <main style={styles.main}>
         <header style={styles.header}>
-          <h2 style={{ margin: 0 }}>Welcome back bookworm!</h2>
+          <h2 style={{ margin: 0 }}>Welcome back, {username}!</h2>
+          <button style={styles.logoutButton} onClick={handleLogout}>
+            Log Out
+          </button>
         </header>
 
         {/* SEARCH BAR */}
@@ -81,7 +110,12 @@ function Home() {
         </div>
 
         {/* BOOK LIST */}
-        <h3 style={{ marginTop: "1rem" }}>List of books</h3>
+        <div style={styles.headerContainer}>
+          <h3 style={styles.reccomendationsHeader}>Recommendations</h3>
+          <button style={styles.listABookButton} onClick={handleListABook}>
+            List A Book
+          </button>
+        </div>
         <div>
           {books.map((book, index) => (
             <div key={index} style={styles.bookCard}>
@@ -113,21 +147,7 @@ function Home() {
   );
 }
 
-// Helper to render star rating
-function renderStars(rating) {
-  const stars = [];
-  for (let i = 0; i < 5; i++) {
-    // filled star if i < rating
-    stars.push(
-      <span key={i} style={{ color: i < rating ? "#f6c700" : "#ccc" }}>
-        ★
-      </span>
-    );
-  }
-  return stars;
-}
-
-// Inline styling
+// ---- STYLES (blue color scheme) ----
 const styles = {
   container: {
     display: "flex",
@@ -135,28 +155,40 @@ const styles = {
     fontFamily: "Arial, sans-serif",
     color: "#333",
   },
+  headerContainer: {
+    display: 'flex',
+    alignItems: 'center',             // Vertically centers items
+    marginBottom: '1rem',             // Add some spacing below the header
+    width: '100%'                     // Ensure full width
+  },
   sidebar: {
     width: "220px",
-    backgroundColor: "#f8f8f8",
+    backgroundColor: "#E3F2FD", // Light blue background
     display: "flex",
     flexDirection: "column",
-    justifyContent: "space-between",
     borderRight: "1px solid #ccc",
     padding: "1rem",
   },
   logo: {
     fontSize: "1.5rem",
     fontWeight: "bold",
+    marginBottom: "0.5rem",
+    color: "#1565C0", // Darker blue for contrast
+  },
+  userInfo: {
     marginBottom: "1rem",
-    color: "#7e57c2",
+    backgroundColor: "#BBDEFB",
+    padding: "0.5rem",
+    borderRadius: "4px",
   },
   nav: {
     display: "flex",
     flexDirection: "column",
+    marginTop: "0.5rem",
   },
   navLink: {
     textDecoration: "none",
-    color: "#333",
+    color: "#1565C0",
     padding: "0.5rem 0",
     fontSize: "0.95rem",
     transition: "all 0.2s",
@@ -165,15 +197,6 @@ const styles = {
     height: "1px",
     backgroundColor: "#ccc",
     margin: "1rem 0",
-  },
-  userProfile: {
-    display: "flex",
-    alignItems: "center",
-    marginTop: "1rem",
-  },
-  avatar: {
-    borderRadius: "50%",
-    marginRight: "0.5rem",
   },
   main: {
     flex: 1,
@@ -185,6 +208,15 @@ const styles = {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
+  },
+  logoutButton: {
+    padding: "0.5rem 1rem",
+    fontSize: "1rem",
+    backgroundColor: "#1565C0",
+    color: "#fff",
+    border: "none",
+    borderRadius: "4px",
+    cursor: "pointer",
   },
   searchContainer: {
     marginTop: "1rem",
@@ -201,7 +233,16 @@ const styles = {
   searchButton: {
     marginLeft: "0.5rem",
     padding: "0.5rem 1rem",
-    backgroundColor: "#7e57c2",
+    backgroundColor: "#1565C0",
+    color: "#fff",
+    border: "none",
+    borderRadius: "4px",
+    cursor: "pointer",
+  },
+  listABookButton: {
+    marginLeft: "0.5rem",
+    padding: "0.5rem 1rem",
+    backgroundColor: "#1565C0",
     color: "#fff",
     border: "none",
     borderRadius: "4px",
@@ -210,7 +251,7 @@ const styles = {
   bookCard: {
     display: "flex",
     alignItems: "center",
-    backgroundColor: "#f9f9f9",
+    backgroundColor: "#E3F2FD", // Light blue card
     padding: "1rem",
     margin: "1rem 0",
     borderRadius: "8px",
@@ -233,7 +274,7 @@ const styles = {
     padding: "0.25rem 0.5rem",
     fontSize: "0.75rem",
     borderRadius: "4px",
-    backgroundColor: "#eceff1",
+    backgroundColor: "#BBDEFB",
     color: "#555",
   },
   bookTitle: {
@@ -254,7 +295,7 @@ const styles = {
     fontSize: "0.85rem",
   },
   exchangeButton: {
-    backgroundColor: "#c8e6c9",
+    backgroundColor: "#90CAF9",
     border: "none",
     padding: "0.5rem 1rem",
     fontSize: "0.9rem",
