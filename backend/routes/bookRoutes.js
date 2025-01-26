@@ -1,8 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const { createBook, getBooks, authMiddleware } = require("../controllers/bookController");
+const { getBooks, searchBooks } = require("../controllers/bookController");
 
-router.post("/", authMiddleware, createBook);
+// GET /books
 router.get("/", getBooks);
+
+// GET /books/search?query=Harry
+router.get("/search", searchBooks);
 
 module.exports = router;

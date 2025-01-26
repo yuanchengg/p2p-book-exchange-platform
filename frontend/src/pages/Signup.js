@@ -16,7 +16,6 @@ function Signup() {
     e.preventDefault();
     try {
       // Here we send all fields to the backend.
-      // Make sure your backend is updated to handle these extra fields.
       await axios.post("/users/signup", formData);
       alert("User signed up successfully!");
     } catch (error) {
@@ -94,8 +93,6 @@ function Signup() {
   );
 }
 
-// Inline styles for a quick demonstration.
-// You can convert these to a .css file or a CSS-in-JS solution if you prefer.
 const styles = {
   container: {
     display: "flex",

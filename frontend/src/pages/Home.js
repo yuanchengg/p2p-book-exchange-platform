@@ -1,46 +1,36 @@
-import React from "react";
-
-// Example: Dummy book data
-const dummyBooks = [
-  {
-    title: "Think Faster, Talk Smarter",
-    author: "Matt Abrahams",
-    genre: "Non-fiction",
-    rating: 4,
-    image: "https://via.placeholder.com/100?text=Ikigai",
-    listedBy: "testuser",
-    listingMethod: "Meet in town",
-  },
-  {
-    title: "Happy Place",
-    author: "Emily Henry",
-    genre: "Romance",
-    rating: 5,
-    image: "https://via.placeholder.com/100?text=Happy+Place",
-    listedBy: "ilovereading",
-    listingMethod: "Postage or meetup",
-  },
-  {
-    title: "80/20 Principle",
-    author: "Richard Koch",
-    genre: "Non-fiction",
-    rating: 4,
-    image: "https://via.placeholder.com/100?text=80/20",
-    listedBy: "bookloop",
-    listingMethod: "Meet at NUS",
-  },
-  {
-    title: "Game Theory",
-    author: "Brian Clegg",
-    genre: "Non-fiction",
-    rating: 3,
-    image: "https://via.placeholder.com/100?text=Game+Theory",
-    listedBy: "bookworm",
-    listingMethod: "Weekday evenings meetup",
-  },
-];
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 function Home() {
+  // State to store fetched books
+  const [books, setBooks] = useState([]);
+
+  // State for search query input
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // Fetch books on component mount
+  useEffect(() => {
+    const fetchBooks = async () => {
+      try {
+        const res = await axios.get("/books");
+        setBooks(res.data); // Store books in state
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchBooks();
+  }, []);
+
+  // Handle search button click
+  const handleSearch = async () => {
+    try {
+      const res = await axios.get(`/books/search?query=${searchQuery}`);
+      setBooks(res.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <div style={styles.container}>
       {/* SIDEBAR */}
@@ -82,17 +72,21 @@ function Home() {
             type="text"
             placeholder="Search for a book title or author here!"
             style={styles.searchInput}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
-          <button style={styles.searchButton}>Search</button>
+          <button style={styles.searchButton} onClick={handleSearch}>
+            Search
+          </button>
         </div>
 
         {/* BOOK LIST */}
         <h3 style={{ marginTop: "1rem" }}>List of books</h3>
         <div>
-          {dummyBooks.map((book, index) => (
+          {books.map((book, index) => (
             <div key={index} style={styles.bookCard}>
               <img
-                src={book.image}
+                src={book.image || "https://via.placeholder.com/60"}
                 alt={book.title}
                 style={styles.bookImage}
               />
@@ -101,13 +95,13 @@ function Home() {
                 <h4 style={styles.bookTitle}>{book.title}</h4>
                 <p style={styles.bookAuthor}>by {book.author}</p>
                 <div style={styles.starRating}>
-                  {renderStars(book.rating)}
+                  {renderStars(book.rating || 0)}
                 </div>
                 <p style={styles.listedBy}>
-                  Listed by <strong>{book.listedBy}</strong>
+                  Listed by <strong>{book.listedBy || "Unknown"}</strong>
                 </p>
                 <p style={{ margin: "0.25rem 0", fontSize: "0.85rem" }}>
-                  {book.listingMethod}
+                  {book.listingMethod || "N/A"}
                 </p>
               </div>
               <button style={styles.exchangeButton}>Exchange</button>
@@ -123,15 +117,17 @@ function Home() {
 function renderStars(rating) {
   const stars = [];
   for (let i = 0; i < 5; i++) {
-    if (i < rating) {
-      stars.push(<span key={i} style={{ color: "#f6c700" }}>★</span>);
-    } else {
-      stars.push(<span key={i} style={{ color: "#ccc" }}>★</span>);
-    }
+    // filled star if i < rating
+    stars.push(
+      <span key={i} style={{ color: i < rating ? "#f6c700" : "#ccc" }}>
+        ★
+      </span>
+    );
   }
   return stars;
 }
 
+// Inline styling
 const styles = {
   container: {
     display: "flex",
@@ -164,9 +160,6 @@ const styles = {
     padding: "0.5rem 0",
     fontSize: "0.95rem",
     transition: "all 0.2s",
-  },
-  navLinkHover: {
-    backgroundColor: "#eee",
   },
   navSeparator: {
     height: "1px",
