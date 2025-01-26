@@ -42,13 +42,13 @@ Add your books at a click on a button.
 * Exchange Mechanism
 
 ## Upcoming Features
-- [] User Reviews and Ratings - allow users to leave reviews and ratings
-- [] Messaging System - enable users to chat directly within the platforms to negotiate exchanges
-- [] AI-Powered Recommendations - use machine learning to recommend books based on user preferences, history or search patterns
-- [] Advanced Search Filters - add filters for book condition, genre, exchange mode
-- [] Location-Based Features - use geolocation to display books available nearby for easier meetups/deliveries
-- [] Barcode Scanner - allow users to scan barcodes to quickly add book details while listing
-- [] Cross Platform Mobile App
+- [ ] User Reviews and Ratings - allow users to leave reviews and ratings
+- [ ] Messaging System - enable users to chat directly within the platforms to negotiate exchanges
+- [ ] AI-Powered Recommendations - use machine learning to recommend books based on user preferences, history or search patterns
+- [ ] Advanced Search Filters - add filters for book condition, genre, exchange mode
+- [ ] Location-Based Features - use geolocation to display books available nearby for easier meetups/deliveries
+- [ ] Barcode Scanner - allow users to scan barcodes to quickly add book details while listing
+- [ ] Cross Platform Mobile App
 
 ## Project Plan and Milestone for future extension
 # Project Plan and Milestones
