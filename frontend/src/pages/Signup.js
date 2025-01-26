@@ -20,7 +20,7 @@ function Signup() {
       alert("User signed up successfully!");
     } catch (error) {
       console.error(error);
-      alert("Error signing up");
+      alert("Error signing up. Please try again with different username or email.");
     }
   };
 
