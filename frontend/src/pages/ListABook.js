@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
 function ListABook() {
@@ -74,7 +74,9 @@ function ListABook() {
           <p style={{ margin: 0, fontSize: "0.85rem" }}>{localStorage.getItem("email") || "No email"}</p>
         </div>
         <nav style={styles.nav}>
-          <a href="#home" style={styles.navLink}>Home</a>
+          <Link to="/home" style={styles.navLink}>
+            Home
+          </Link>
           <a href="#my-list" style={styles.navLink}>My listed books</a>
           <a href="#favorites" style={styles.navLink}>Favourite books</a>
           <a href="#exchanged" style={styles.navLink}>Exchanged books</a>

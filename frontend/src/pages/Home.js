@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function Home() {
   const [books, setBooks] = useState([]);
@@ -61,9 +61,9 @@ function Home() {
         </div>
 
         <nav style={styles.nav}>
-          <a href="#home" style={styles.navLink}>
+          <Link to="/home" style={styles.navLink}>
             Home
-          </a>
+          </Link>
           <a href="#my-list" style={styles.navLink}>
             My listed books
           </a>
