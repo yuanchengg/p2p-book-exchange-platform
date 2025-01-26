@@ -11,7 +11,7 @@ function ListABook() {
     author: "",
     genre: "",
     condition: "",
-    exchangeMode: "meetup", // Default option
+    mode_of_exchange: "meetup", // Default option
   });
 
   // Handle form field changes
@@ -38,11 +38,12 @@ function ListABook() {
 
       // Send book details to the backend
       await axios.post(
-        "/books/list",
+        "/books",
         { ...formData },
         {
           headers: {
             Authorization: `Bearer ${token}`, // Pass token for authentication
+            "Content-Type": "application/json"
           },
         }
       );
@@ -73,12 +74,13 @@ function ListABook() {
           <p style={{ margin: 0, fontSize: "0.85rem" }}>{localStorage.getItem("email") || "No email"}</p>
         </div>
         <nav style={styles.nav}>
-          <a href="/home" style={styles.navLink}>Home</a>
-          <a href="/list-a-book" style={styles.navLink}>List A Book</a>
-          <a href="/my-books" style={styles.navLink}>My Books</a>
-          <a href="/favorites" style={styles.navLink}>Favorites</a>
+          <a href="#home" style={styles.navLink}>Home</a>
+          <a href="#my-list" style={styles.navLink}>My listed books</a>
+          <a href="#favorites" style={styles.navLink}>Favourite books</a>
+          <a href="#exchanged" style={styles.navLink}>Exchanged books</a>
           <div style={styles.navSeparator}></div>
-          <a href="/settings" style={styles.navLink}>Settings</a>
+          <a href="#messages" style={styles.navLink}>Messages</a>
+          <a href="#settings" style={styles.navLink}>User Profile</a>
         </nav>
       </aside>
 
@@ -143,9 +145,9 @@ function ListABook() {
                 <label>
                   <input
                     type="radio"
-                    name="exchangeMode"
+                    name="mode_of_exchange"
                     value="meetup"
-                    checked={formData.exchangeMode === "meetup"}
+                    checked={formData.mode_of_exchange === "meetup"}
                     onChange={handleChange}
                   />
                   Meetup
@@ -153,9 +155,9 @@ function ListABook() {
                 <label>
                   <input
                     type="radio"
-                    name="exchangeMode"
+                    name="mode_of_exchange"
                     value="postal"
-                    checked={formData.exchangeMode === "postal"}
+                    checked={formData.mode_of_exchange === "postal"}
                     onChange={handleChange}
                   />
                   Postal

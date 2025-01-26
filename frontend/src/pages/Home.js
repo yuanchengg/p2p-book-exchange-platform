@@ -2,27 +2,14 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-// Helper to render star rating
-function renderStars(rating) {
-  const stars = [];
-  for (let i = 0; i < 5; i++) {
-    stars.push(
-      <span key={i} style={{ color: i < rating ? "#f6c700" : "#ccc" }}>
-        ★
-      </span>
-    );
-  }
-  return stars;
-}
-
 function Home() {
   const [books, setBooks] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  
+
   // Retrieve stored username & email (set by login process)
   const username = localStorage.getItem("username") || "Guest";
   const userEmail = localStorage.getItem("email") || "No email";
-  
+
   const navigate = useNavigate();
 
   // Fetch books on component mount
@@ -74,15 +61,25 @@ function Home() {
         </div>
 
         <nav style={styles.nav}>
-          <a href="#home" style={styles.navLink}>Home</a>
-          <a href="#list" style={styles.navLink}>List books</a>
-          <a href="#my-list" style={styles.navLink}>My listed books</a>
-          <a href="#favorites" style={styles.navLink}>Favourite books</a>
-          <a href="#exchanged" style={styles.navLink}>Exchanged books</a>
+          <a href="#home" style={styles.navLink}>
+            Home
+          </a>
+          <a href="#my-list" style={styles.navLink}>
+            My listed books
+          </a>
+          <a href="#favorites" style={styles.navLink}>
+            Favourite books
+          </a>
+          <a href="#exchanged" style={styles.navLink}>
+            Exchanged books
+          </a>
           <div style={styles.navSeparator}></div>
-          <a href="#messages" style={styles.navLink}>Messages</a>
-          <a href="#guide" style={styles.navLink}>User Guide</a>
-          <a href="#settings" style={styles.navLink}>Settings</a>
+          <a href="#messages" style={styles.navLink}>
+            Messages
+          </a>
+          <a href="#settings" style={styles.navLink}>
+            User Profile
+          </a>
         </nav>
       </aside>
 
@@ -111,7 +108,7 @@ function Home() {
 
         {/* BOOK LIST */}
         <div style={styles.headerContainer}>
-          <h3 style={styles.reccomendationsHeader}>Recommendations</h3>
+          <h3 style={styles.recommendationsHeader}>Recommendations</h3>
           <button style={styles.listABookButton} onClick={handleListABook}>
             List A Book
           </button>
@@ -119,23 +116,18 @@ function Home() {
         <div>
           {books.map((book, index) => (
             <div key={index} style={styles.bookCard}>
-              <img
-                src={book.image || "https://via.placeholder.com/60"}
-                alt={book.title}
-                style={styles.bookImage}
-              />
               <div style={styles.bookInfo}>
                 <div style={styles.genreTag}>{book.genre}</div>
                 <h4 style={styles.bookTitle}>{book.title}</h4>
                 <p style={styles.bookAuthor}>by {book.author}</p>
-                <div style={styles.starRating}>
-                  {renderStars(book.rating || 0)}
-                </div>
-                <p style={styles.listedBy}>
-                  Listed by <strong>{book.listedBy || "Unknown"}</strong>
+                <p style={styles.bookCondition}>
+                  Condition: <strong>{book.condition}</strong>
                 </p>
-                <p style={{ margin: "0.25rem 0", fontSize: "0.85rem" }}>
-                  {book.listingMethod || "N/A"}
+                <p style={styles.modeOfExchange}>
+                  Exchange Method: <strong>{book.mode_of_exchange}</strong>
+                </p>
+                <p style={styles.listedBy}>
+                  Listed by <strong>{book.listed_by || "Unknown"}</strong>
                 </p>
               </div>
               <button style={styles.exchangeButton}>Exchange</button>
@@ -156,10 +148,10 @@ const styles = {
     color: "#333",
   },
   headerContainer: {
-    display: 'flex',
-    alignItems: 'center',             // Vertically centers items
-    marginBottom: '1rem',             // Add some spacing below the header
-    width: '100%'                     // Ensure full width
+    display: "flex",
+    alignItems: "center",
+    marginBottom: "1rem",
+    width: "100%",
   },
   sidebar: {
     width: "220px",
@@ -258,13 +250,6 @@ const styles = {
     boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
     justifyContent: "space-between",
   },
-  bookImage: {
-    width: "60px",
-    height: "60px",
-    objectFit: "cover",
-    borderRadius: "4px",
-    marginRight: "1rem",
-  },
   bookInfo: {
     flex: 1,
   },
@@ -286,9 +271,15 @@ const styles = {
     fontSize: "0.95rem",
     color: "#666",
   },
-  starRating: {
-    margin: "0.5rem 0",
-    fontSize: "1.1rem",
+  bookCondition: {
+    margin: "0.25rem 0",
+    fontSize: "0.9rem",
+    color: "#444",
+  },
+  modeOfExchange: {
+    margin: "0.25rem 0",
+    fontSize: "0.9rem",
+    color: "#444",
   },
   listedBy: {
     margin: 0,

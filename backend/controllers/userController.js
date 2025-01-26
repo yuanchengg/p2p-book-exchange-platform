@@ -80,10 +80,11 @@ exports.login = async (req, res) => {
 
     // 3. Sign JWT
     const token = jwt.sign(
-      { userId: user.id, name: user.username },
+      { id: user.id, username: user.username },
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
+    
 
     // 4. Return token + user info
     res.json({
