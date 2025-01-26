@@ -1,7 +1,6 @@
 # p2p-book-exchange-platform
 ---
-layout: page
-title: BookLives
+#### BookLives
 ---
 
 BookLives is a Peer-to-Peer Book Exchange Platform. It is a platform which **gives books a second life.** This idea was formed when we recognized that books no longer read by someone could be a treasure for someone else, and this platform aims to make book exchange **as easy as clicking a button**, ensuring books find new readers who appreciate them. BookLives also **promotes a culture of *sharing and sustainability*, *reducing waste*, and fostering a community of readers who can *benefit from each other's* collections**. 
