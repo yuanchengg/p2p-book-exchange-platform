@@ -1,4 +1,4 @@
-# BookLives
+<img width="754" alt="Screenshot 2025-01-27 at 7 58 56 AM" src="https://github.com/user-attachments/assets/5466c0d0-7475-4993-aeed-aa1d6dcfd1cd" /># BookLives
 ---
 
 BookLives is a Peer-to-Peer Book Exchange Platform. It is a platform which **gives books a second life.** This idea was formed when we recognized that books no longer read by someone could be a treasure for someone else, and this platform aims to make book exchange **as easy as clicking a button**, ensuring books find new readers who appreciate them. BookLives also **promotes a culture of *sharing and sustainability*, *reducing waste*, and fostering a community of readers who can *benefit from each other's* collections**. 
@@ -33,9 +33,10 @@ BookLives is a Peer-to-Peer Book Exchange Platform. It is a platform which **giv
 ## BookLives Features
 
 * Creating Accounts and Logging in
+  <img width="776" alt="Screenshot 2025-01-27 at 7 59 49 AM" src="https://github.com/user-attachments/assets/02ed414e-1202-4c6f-b809-3968c8e9a533" />
 
-* Book Listings and Search
-Add your books at a click on a button. 
+* Book Listings and Search - Add your books at a click on a button.
+  <img width="754" alt="Screenshot 2025-01-27 at 7 58 56 AM" src="https://github.com/user-attachments/assets/92661bb1-4115-45a3-ba7a-15d578dde3e4" />
 
 * User Profiles
 
